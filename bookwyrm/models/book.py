@@ -55,6 +55,9 @@ class BookDataModel(ObjectMixin, BookWyrmModel):
     asin = fields.CharField(
         max_length=255, blank=True, null=True, deduplication_field=True
     )
+    doi = fields.CharField(
+        max_length=255, blank=True, null=True, deduplication_field=True
+    )
     search_vector = SearchVectorField(null=True)
 
     last_edited_by = fields.ForeignKey(
@@ -67,6 +70,11 @@ class BookDataModel(ObjectMixin, BookWyrmModel):
     def openlibrary_link(self):
         """generate the url from the openlibrary id"""
         return f"https://openlibrary.org/books/{self.openlibrary_key}"
+
+    @property
+    def doi_link(self):
+        """generate the url from the doi"""
+        return f"https://doi.org/{self.doi}"
 
     @property
     def inventaire_link(self):
@@ -209,9 +217,10 @@ class Book(BookDataModel):
 
     def __repr__(self):
         # pylint: disable=consider-using-f-string
-        return "<{} key={!r} title={!r}>".format(
+        return "<{} key={!r} doi={!r} title={!r}>".format(
             self.__class__,
             self.openlibrary_key,
+            self.doi,
             self.title,
         )
 
@@ -329,6 +338,7 @@ class Edition(Book):
         rank += int(bool(self.isbn_13))
         rank += int(bool(self.isbn_10))
         rank += int(bool(self.oclc_number))
+        rank += int(bool(self.doi))
         rank += int(bool(self.pages))
         rank += int(bool(self.physical_format))
         rank += int(bool(self.description))
