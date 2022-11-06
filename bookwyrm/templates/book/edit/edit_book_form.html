@@ -344,6 +344,15 @@
 
                     {% include 'snippets/form_errors.html' with errors_list=form.ASIN.errors id="desc_ASIN" %}
                 </div>
+
+                <div class="field">
+                    <label class="label" for="id_doi">
+                        {% trans "DOI:" %}
+                    </label>
+                    {{ form.doi }}
+
+                    {% include 'snippets/form_errors.html' with errors_list=form.doi.errors id="desc_doi" %}
+                </div>
             </div>
         </section>
     </div>
