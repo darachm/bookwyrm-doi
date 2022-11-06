@@ -13,6 +13,7 @@ class BookData(ActivityObject):
 
     openlibraryKey: str = None
     inventaireId: str = None
+    doi: str = None
     librarythingKey: str = None
     goodreadsKey: str = None
     bnfId: str = None
